@@ -5,6 +5,7 @@ name = "pypi"
 
 [packages]
 flask = "*"
+line-bot-sdk = "*"
 
 [dev-packages]
 
