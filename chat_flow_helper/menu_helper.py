@@ -1,5 +1,6 @@
 from linebot.models import (
-    TemplateSendMessage, ButtonsTemplate, CarouselTemplate, CarouselColumn
+    TemplateSendMessage, ButtonsTemplate, CarouselTemplate, CarouselColumn,
+    ImageSendMessage
 )
 from linebot.models.actions import (
     MessageAction, URIAction
@@ -92,3 +93,35 @@ def get_new_arrivals():
             columns=columns
         )
     )
+
+
+def get_new_offer():
+    offer = {
+        'original_content_url': 'https://loremflickr.com/320/240?lock=8280',
+        'preview_image_url': 'https://loremflickr.com/320/240?lock=8280',
+        'product_name': u'商品10',
+        'product_url': 'http://34.80.108.187/products/10'
+    }
+
+    return [
+        ImageSendMessage(
+            original_content_url=offer['original_content_url'],
+            preview_image_url=offer['preview_image_url']
+        ),
+        TemplateSendMessage(
+            alt_text=u'最新優惠',
+            template=ButtonsTemplate(
+                text=offer['product_name'],
+                actions=[
+                    URIAction(
+                        label=u'查看優惠',
+                        uri=offer['product_url']
+                    ),
+                    MessageAction(
+                        label=u'回主選單',
+                        text=u'回主選單'
+                    ),
+                ]
+            )
+        )
+    ]

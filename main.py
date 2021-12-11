@@ -45,7 +45,8 @@ def menu(event):
     trigger = {
         'query': '開始查詢',
         'menu': '主選單',
-        'new_arrival': '最新商品'
+        'new_arrival': '最新商品',
+        'new_offer':  '最新優惠'
     }
     message = None
 
@@ -55,6 +56,9 @@ def menu(event):
 
     if event.message.text.find(trigger['new_arrival']) != -1:
         message = menu_helper.get_new_arrivals()
+
+    if event.message.text.find(trigger['new_offer']) != -1:
+        message = menu_helper.get_new_offer()
 
     if message is None:
         message = menu_helper.get_default_message()
