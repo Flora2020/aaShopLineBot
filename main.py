@@ -44,15 +44,22 @@ def callback():
 def menu(event):
     trigger = {
         'query': '開始查詢',
+        'menu': '主選單',
+        'new_arrival': '最新商品'
     }
+    message = None
 
-    if event.message.text.find(trigger['query']) != -1:
+    if event.message.text.find(trigger['query']) != -1 \
+            or event.message.text.find(trigger['menu']) != -1:
         message = menu_helper.get_menu()
 
-        line_bot_api.reply_message(
-            event.reply_token,
-            message
-        )
+    if event.message.text.find(trigger['new_arrival']) != -1:
+        message = menu_helper.get_new_arrivals()
+
+    line_bot_api.reply_message(
+        event.reply_token,
+        message
+    )
 
 
 if __name__ == "__main__":
