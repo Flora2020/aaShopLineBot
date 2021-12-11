@@ -1,6 +1,6 @@
 from linebot.models import (
     TemplateSendMessage, ButtonsTemplate, CarouselTemplate, CarouselColumn,
-    ImageSendMessage
+    ImageSendMessage, TextSendMessage, QuickReply, QuickReplyButton
 )
 from linebot.models.actions import (
     MessageAction, URIAction
@@ -125,3 +125,19 @@ def get_new_offer():
             )
         )
     ]
+
+
+def ask_user_name():
+    return TextSendMessage(text=u'你好，請問怎樣稱呼？')
+
+
+def get_customer_service(name):
+    return TextSendMessage(
+        text=f'你好 {name}，請問你想查詢什麼？',
+        quick_reply=QuickReply(
+            items=[
+                QuickReplyButton(action=MessageAction(label=u'會員積分', text=u'會員積分')),
+                QuickReplyButton(action=MessageAction(label=u'退/換貨', text=u'退/換貨')),
+                QuickReplyButton(action=MessageAction(label=u'點錯了', text=u'點錯了')),
+            ]
+        ))

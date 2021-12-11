@@ -20,6 +20,11 @@ load_dotenv()
 line_bot_api = LineBotApi(os.environ.get('CHANNEL_ACCESS_TOKEN'))
 handler = WebhookHandler(os.environ.get('CHANNEL_SECRET'))
 
+# record session status
+wait_for_reply = {
+    'asked_name': set()  # collect users who is asked name
+}
+
 
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -46,7 +51,8 @@ def menu(event):
         'query': '開始查詢',
         'menu': '主選單',
         'new_arrival': '最新商品',
-        'new_offer':  '最新優惠'
+        'new_offer': '最新優惠',
+        'customer_service': '客服'
     }
     message = None
 
@@ -59,6 +65,14 @@ def menu(event):
 
     if event.message.text.find(trigger['new_offer']) != -1:
         message = menu_helper.get_new_offer()
+
+    user_id = event.source.user_id
+    if event.message.text.find(trigger['customer_service']) != -1:
+        message = menu_helper.ask_user_name()
+        wait_for_reply['asked_name'].add(user_id)
+    elif user_id in wait_for_reply['asked_name']:
+        message = menu_helper.get_customer_service(event.message.text)
+        wait_for_reply['asked_name'].discard(user_id)
 
     if message is None:
         message = menu_helper.get_default_message()
