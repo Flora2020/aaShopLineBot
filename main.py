@@ -7,6 +7,12 @@ from linebot import (
 from linebot.exceptions import (
     InvalidSignatureError
 )
+from linebot.models import (
+    MessageEvent, TextMessage, TemplateSendMessage, ButtonsTemplate
+)
+from linebot.models.actions import (
+    PostbackAction, MessageAction, URIAction
+)
 
 from dotenv import load_dotenv
 
@@ -34,6 +40,40 @@ def callback():
         abort(400)
 
     return 'OK'
+
+
+@handler.add(MessageEvent, message=TextMessage)
+def send_menu(event):
+    trigger = '開始查詢'
+
+    if event.message.text.find(trigger) == -1:
+        return
+
+    buttons_template_message = TemplateSendMessage(
+        alt_text=u'主選單',
+        template=ButtonsTemplate(
+            text=u'你好，我是機器人',
+            actions=[
+                MessageAction(
+                    label=u'最新商品',
+                    text=u'最新商品'
+                ),
+                MessageAction(
+                    label=u'最新優惠',
+                    text=u'最新優惠'
+                ),
+                MessageAction(
+                    label=u'找客服',
+                    text=u'找客服'
+                )
+            ]
+        )
+    )
+
+    line_bot_api.reply_message(
+        event.reply_token,
+        buttons_template_message
+    )
 
 
 if __name__ == "__main__":
