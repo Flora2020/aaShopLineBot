@@ -56,6 +56,9 @@ def menu(event):
     if event.message.text.find(trigger['new_arrival']) != -1:
         message = menu_helper.get_new_arrivals()
 
+    if message is None:
+        message = menu_helper.get_default_message()
+
     line_bot_api.reply_message(
         event.reply_token,
         message

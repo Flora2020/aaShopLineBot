@@ -6,6 +6,21 @@ from linebot.models.actions import (
 )
 
 
+def get_default_message():
+    return TemplateSendMessage(
+        alt_text=u'開始查詢',
+        template=ButtonsTemplate(
+            text=u'你好，請點擊「開始查詢」以取得主選單',
+            actions=[
+                MessageAction(
+                    label=u'開始查詢',
+                    text=u'開始查詢'
+                )
+            ]
+        )
+    )
+
+
 def get_menu():
     return TemplateSendMessage(
         alt_text=u'主選單',
