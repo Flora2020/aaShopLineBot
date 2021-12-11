@@ -54,27 +54,28 @@ def menu(event):
         'new_offer': '最新優惠',
         'customer_service': '客服'
     }
-    message = None
+    user_message = event.message.text
+    user_id = event.source.user_id
 
-    if event.message.text.find(trigger['query']) != -1 \
+    if user_message.find(trigger['query']) != -1 \
             or event.message.text.find(trigger['menu']) != -1:
         message = menu_helper.get_menu()
 
-    if event.message.text.find(trigger['new_arrival']) != -1:
+    elif user_message.find(trigger['new_arrival']) != -1:
         message = menu_helper.get_new_arrivals()
 
-    if event.message.text.find(trigger['new_offer']) != -1:
+    elif user_message.find(trigger['new_offer']) != -1:
         message = menu_helper.get_new_offer()
 
-    user_id = event.source.user_id
-    if event.message.text.find(trigger['customer_service']) != -1:
+    elif user_message.find(trigger['customer_service']) != -1:
         message = menu_helper.ask_user_name()
         wait_for_reply['asked_name'].add(user_id)
+
     elif user_id in wait_for_reply['asked_name']:
-        message = menu_helper.get_customer_service(event.message.text)
+        message = menu_helper.get_customer_service(user_message)
         wait_for_reply['asked_name'].discard(user_id)
 
-    if message is None:
+    else:
         message = menu_helper.get_default_message()
 
     line_bot_api.reply_message(
