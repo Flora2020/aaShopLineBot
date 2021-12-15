@@ -52,7 +52,8 @@ def menu(event):
     user_id = event.source.user_id
 
     if user_message.find(TRIGGERS['query']) != -1 \
-            or event.message.text.find(TRIGGERS['menu']) != -1:
+            or user_message.find(TRIGGERS['menu']) != -1 \
+            or user_message.find(TRIGGERS['fat_finger']) != -1:
         message = menu_helper.get_menu()
 
     elif user_message.find(TRIGGERS['new_arrival']) != -1:
@@ -68,6 +69,10 @@ def menu(event):
     elif user_id in wait_for_reply['asked_name']:
         message = menu_helper.get_customer_service(user_message)
         wait_for_reply['asked_name'].discard(user_id)
+
+    elif user_message.find(TRIGGERS['loyalty_point']) != -1 \
+            or user_message.find(TRIGGERS['return_or_exchange']) != -1:
+        message = menu_helper.get_query_reply()
 
     else:
         message = menu_helper.get_default_message()

@@ -3,7 +3,10 @@ TRIGGERS = {
     'menu': u'主選單',
     'new_arrival': u'最新商品',
     'new_offer': u'最新優惠',
-    'customer_service': u'客服'
+    'customer_service': u'客服',
+    'loyalty_point': u'會員積分',
+    'return_or_exchange': u'退/換貨',
+    'fat_finger': u'點錯了'
 }
 
 ACTIONS = {
@@ -21,8 +24,5 @@ TEMPLATES = {
 CUSTOMER_SERVICE_CHAT = {
     'ask_name': u'你好，請問怎樣稱呼？',
     'greeting': lambda name: f'你好 {name}，請問你想查詢甚麼？',
-    'loyalty_point': u'會員積分',
-    'return_or_exchange': u'退/換貨',
-    'fat_finger': u'點錯了'
-
+    'contact_you_soon': '謝謝你！我們的客服人員會很快聯絡你',
 }

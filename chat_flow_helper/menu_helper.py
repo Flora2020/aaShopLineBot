@@ -143,21 +143,25 @@ def get_customer_service(name):
             items=[
                 QuickReplyButton(
                     action=MessageAction(
-                        label=CUSTOMER_SERVICE_CHAT['loyalty_point'],
-                        text=CUSTOMER_SERVICE_CHAT['loyalty_point']
+                        label=TRIGGERS['loyalty_point'],
+                        text=TRIGGERS['loyalty_point']
                     )
                 ),
                 QuickReplyButton(
                     action=MessageAction(
-                        label=CUSTOMER_SERVICE_CHAT['return_or_exchange'],
-                        text=CUSTOMER_SERVICE_CHAT['return_or_exchange']
+                        label=TRIGGERS['return_or_exchange'],
+                        text=TRIGGERS['return_or_exchange']
                     )
                 ),
                 QuickReplyButton(
                     action=MessageAction(
-                        label=CUSTOMER_SERVICE_CHAT['fat_finger'],
-                        text=CUSTOMER_SERVICE_CHAT['fat_finger']
+                        label=TRIGGERS['fat_finger'],
+                        text=TRIGGERS['fat_finger']
                     )
                 ),
             ]
         ))
+
+
+def get_query_reply():
+    return TextSendMessage(text=CUSTOMER_SERVICE_CHAT['contact_you_soon'])
