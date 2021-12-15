@@ -13,6 +13,7 @@ from linebot.models import (
 
 from dotenv import load_dotenv
 from chat_flow_helper import menu_helper
+from constants.menu import TRIGGERS
 
 app = Flask(__name__)
 
@@ -47,27 +48,20 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def menu(event):
-    trigger = {
-        'query': '開始查詢',
-        'menu': '主選單',
-        'new_arrival': '最新商品',
-        'new_offer': '最新優惠',
-        'customer_service': '客服'
-    }
     user_message = event.message.text
     user_id = event.source.user_id
 
-    if user_message.find(trigger['query']) != -1 \
-            or event.message.text.find(trigger['menu']) != -1:
+    if user_message.find(TRIGGERS['query']) != -1 \
+            or event.message.text.find(TRIGGERS['menu']) != -1:
         message = menu_helper.get_menu()
 
-    elif user_message.find(trigger['new_arrival']) != -1:
+    elif user_message.find(TRIGGERS['new_arrival']) != -1:
         message = menu_helper.get_new_arrivals()
 
-    elif user_message.find(trigger['new_offer']) != -1:
+    elif user_message.find(TRIGGERS['new_offer']) != -1:
         message = menu_helper.get_new_offer()
 
-    elif user_message.find(trigger['customer_service']) != -1:
+    elif user_message.find(TRIGGERS['customer_service']) != -1:
         message = menu_helper.ask_user_name()
         wait_for_reply['asked_name'].add(user_id)
 

@@ -6,16 +6,18 @@ from linebot.models.actions import (
     MessageAction, URIAction
 )
 
+from constants.menu import TRIGGERS, ACTIONS, TEMPLATES, CUSTOMER_SERVICE_CHAT
+
 
 def get_default_message():
     return TemplateSendMessage(
-        alt_text=u'開始查詢',
+        alt_text=TRIGGERS['query'],
         template=ButtonsTemplate(
-            text=u'你好，請點擊「開始查詢」以取得主選單',
+            text=TEMPLATES['get_menu'],
             actions=[
                 MessageAction(
-                    label=u'開始查詢',
-                    text=u'開始查詢'
+                    label=TRIGGERS['query'],
+                    text=TRIGGERS['query']
                 )
             ]
         )
@@ -24,21 +26,21 @@ def get_default_message():
 
 def get_menu():
     return TemplateSendMessage(
-        alt_text=u'主選單',
+        alt_text=TRIGGERS['menu'],
         template=ButtonsTemplate(
-            text=u'你好，我是機器人',
+            text=TEMPLATES['greeting'],
             actions=[
                 MessageAction(
-                    label=u'最新商品',
-                    text=u'最新商品'
+                    label=TRIGGERS['new_arrival'],
+                    text=TRIGGERS['new_arrival']
                 ),
                 MessageAction(
-                    label=u'最新優惠',
-                    text=u'最新優惠'
+                    label=TRIGGERS['new_offer'],
+                    text=TRIGGERS['new_offer']
                 ),
                 MessageAction(
-                    label=u'找客服',
-                    text=u'找客服'
+                    label=ACTIONS['find_customer_service'],
+                    text=ACTIONS['find_customer_service']
                 )
             ]
         )
@@ -73,22 +75,22 @@ def get_new_arrivals():
             CarouselColumn(
                 thumbnail_image_url=product['image_url'],
                 title=product['name'],
-                text=f'TWD$ {product["price"]:,}',
+                text=f'TWD${product["price"]:,}',
                 actions=[
                     URIAction(
-                        label=u'查看商品',
+                        label=ACTIONS['view_product_detail'],
                         uri=product['product_url']
                     ),
                     MessageAction(
-                        label=u'回主選單',
-                        text=u'回主選單'
+                        label=ACTIONS['back_to_menu'],
+                        text=ACTIONS['back_to_menu']
                     ),
                 ]
             )
         )
 
     return TemplateSendMessage(
-        alt_text=u'最新商品',
+        alt_text=TRIGGERS['new_arrival'],
         template=CarouselTemplate(
             columns=columns
         )
@@ -109,17 +111,17 @@ def get_new_offer():
             preview_image_url=offer['preview_image_url']
         ),
         TemplateSendMessage(
-            alt_text=u'最新優惠',
+            alt_text=TRIGGERS['new_offer'],
             template=ButtonsTemplate(
                 text=offer['product_name'],
                 actions=[
                     URIAction(
-                        label=u'查看優惠',
+                        label=ACTIONS['view_product_offer'],
                         uri=offer['product_url']
                     ),
                     MessageAction(
-                        label=u'回主選單',
-                        text=u'回主選單'
+                        label=ACTIONS['back_to_menu'],
+                        text=ACTIONS['back_to_menu']
                     ),
                 ]
             )
@@ -128,16 +130,31 @@ def get_new_offer():
 
 
 def ask_user_name():
-    return TextSendMessage(text=u'你好，請問怎樣稱呼？')
+    return TextSendMessage(text=CUSTOMER_SERVICE_CHAT['ask_name'])
 
 
 def get_customer_service(name):
     return TextSendMessage(
-        text=f'你好 {name}，請問你想查詢什麼？',
+        text=CUSTOMER_SERVICE_CHAT['greeting'](name),
         quick_reply=QuickReply(
             items=[
-                QuickReplyButton(action=MessageAction(label=u'會員積分', text=u'會員積分')),
-                QuickReplyButton(action=MessageAction(label=u'退/換貨', text=u'退/換貨')),
-                QuickReplyButton(action=MessageAction(label=u'點錯了', text=u'點錯了')),
+                QuickReplyButton(
+                    action=MessageAction(
+                        label=CUSTOMER_SERVICE_CHAT['loyalty_point'],
+                        text=CUSTOMER_SERVICE_CHAT['loyalty_point']
+                    )
+                ),
+                QuickReplyButton(
+                    action=MessageAction(
+                        label=CUSTOMER_SERVICE_CHAT['return_or_exchange'],
+                        text=CUSTOMER_SERVICE_CHAT['return_or_exchange']
+                    )
+                ),
+                QuickReplyButton(
+                    action=MessageAction(
+                        label=CUSTOMER_SERVICE_CHAT['fat_finger'],
+                        text=CUSTOMER_SERVICE_CHAT['fat_finger']
+                    )
+                ),
             ]
         ))
