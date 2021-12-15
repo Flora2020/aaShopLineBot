@@ -48,6 +48,15 @@ def create_app():
 
     @handler.add(MessageEvent, message=TextMessage)
     def menu(event):
+        """
+        chat flow
+        trigger: 開始查詢、主選單、點錯了 --> 提供選項：最新商品、最新優惠、找客服
+        trigger: 最新商品 --> 提供資訊：商品圖片、商品名稱、商品價格、商品購買網址、回主選單
+        trigger: 最新優惠 --> 提供資訊：優惠商品圖片、優惠商品名稱、優惠商品購買網址、回主選單
+        trigger: 客服 --> 詢問稱呼 --> 提供選項：會員積分、退/換貨、點錯了
+        trigger: 會員積分、退/換貨 -->  回覆：客服會很快聯繫你
+        """
+
         user_message = event.message.text
         user_id = event.source.user_id
 
