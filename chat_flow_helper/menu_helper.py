@@ -85,7 +85,10 @@ def get_new_arrivals():
                         label=ACTIONS['back_to_menu'],
                         text=ACTIONS['back_to_menu']
                     ),
-                ]
+                ],
+                default_action=URIAction(
+                    uri=product['product_url']
+                )
             )
         )
 
